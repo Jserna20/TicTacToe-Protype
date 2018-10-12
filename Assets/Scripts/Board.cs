@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Board : MonoBehaviour
 {
+    [Header("Set Dynamically")]
     public GameObject space;
     public GameObject space1;
     public GameObject space2;
@@ -22,6 +23,9 @@ public class Board : MonoBehaviour
     public Vector3 space6Pos;
     public Vector3 space7Pos;
     public Vector3 space8Pos;
+    
+   
+
 
     void Awake()
     {
@@ -73,6 +77,8 @@ public class Board : MonoBehaviour
 
     void OnMouseEnter()
     {
+        //Gives me an error if I try set more than 1 at a time
+        print("mouse in");
         space.SetActive(true);
         space1.SetActive(true);
         space2.SetActive(true);
@@ -86,6 +92,7 @@ public class Board : MonoBehaviour
 
     void OnMouseExit()
     {
+        print("mouse out");
         space.SetActive(false);
         space1.SetActive(false);
         space2.SetActive(false);
@@ -102,7 +109,17 @@ public class Board : MonoBehaviour
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void Update ()
+    {
+        Vector3 mousePos2D = Input.mousePosition;
+
+        mousePos2D.z = -Camera.main.transform.position.z;
+
+        Vector3 mousePos3D = Camera.main.ScreenToWorldPoint(mousePos2D);
+
+        Vector3 pos = this.transform.position;
+        pos.x = mousePos3D.x;
+        this.transform.position = pos;
    
     }
 }
